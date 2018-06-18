@@ -33,6 +33,59 @@ class FileMapper
     {
     }
 
+    /**
+     * Get the type of file type.
+     *
+     * @param string $relFilePath
+     *
+     * @see FileMapper::UNKNOWN
+     * @see FileMapper::CONTENT_ITEM
+     * @see FileMapper::DATA_ITEM
+     * @see FileMapper::BASE_PAGEVIEW
+     * @see FileMapper::STATIC_PAGEVIEW
+     * @see FileMapper::DYNAMIC_PAGEVIEW
+     * @see FileMapper::REPEATER_PAGEVIEW
+     * @see FileMapper::TWIG_INCLUDE
+     *
+     * @return int
+     */
+    public function getFileType($relFilePath)
+    {
+        if (isset($this->fileMap[$relFilePath]))
+        {
+            return $this->fileMap[$relFilePath];
+        }
+
+        if (isset($this->templateIncludes[$relFilePath]) || isset($this->templateExtends[$relFilePath]))
+        {
+            return self::TWIG_INCLUDE;
+        }
+
+        return self::UNKNOWN;
+    }
+
+    /**
+     * Get the relative file paths of PageViews that are dependent on the given $relFilePath.
+     *
+     * @param string $relFilePath
+     *
+     * @return string[]
+     */
+    public function getTemplateDependents($relFilePath)
+    {
+        if (isset($this->templateIncludes[$relFilePath]))
+        {
+            return $this->templateIncludes[$relFilePath];
+        }
+
+        if (isset($this->templateExtends[$relFilePath]))
+        {
+            return $this->templateIncludes[$relFilePath];
+        }
+
+        return [];
+    }
+
     public function registerFile(ReadableDocument $file)
     {
         $relativePath = $file->getRelativeFilePath();

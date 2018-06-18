@@ -363,6 +363,64 @@ class Compiler
     }
 
     ///
+    // Runtime Methods
+    ///
+
+    /**
+     * Compile an individual PageView from a given path.
+     *
+     * This method is designed to be used at runtime meaning it will refresh the content of the PageView.
+     *
+     * @param string $filePath
+     *
+     * @throws FileNotFoundException when the given file path isn't tracked by the Compiler
+     */
+    public function runtimeCompilePageViewFromPath($filePath)
+    {
+        if (!isset($this->pageViewsFlattened[$filePath]))
+        {
+            throw new FileNotFoundException(sprintf('The "%s" PageView is not being tracked by this compiler.', $filePath));
+        }
+
+        $pageView = &$this->pageViewsFlattened[$filePath];
+        $pageView->readContent();
+
+        $this->compilePageView($pageView);
+    }
+
+    /**
+     * Compile a CollectableItem based on its path if it is being tracked.
+     *
+     * @param string $filePath
+     *
+     * @return bool If the CollectableItem was found in any of the DynamicPageViews
+     */
+    public function runtimeCompileCollectableItemFromPath($filePath)
+    {
+        $pageViews = &$this->pageManager->getPageViews();
+        $dynamicPageViews = $pageViews[BasePageView::DYNAMIC_TYPE];
+
+        /** @var DynamicPageView $pageView */
+        foreach ($dynamicPageViews as $pageView)
+        {
+            $collectableItem = $pageView->getCollectableItem($filePath);
+
+            if ($collectableItem !== null)
+            {
+                $this->writeToFilesystem(
+                    $collectableItem->getTargetFile(),
+                    $this->renderDynamicPageView($template, $collectableItem),
+                    BasePageView::DYNAMIC_TYPE
+                );
+
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    ///
     // Redirect handling
     ///
 

@@ -80,7 +80,7 @@ class FileMapper
 
         if (isset($this->templateExtends[$relFilePath]))
         {
-            return $this->templateIncludes[$relFilePath];
+            return $this->templateExtends[$relFilePath];
         }
 
         return [];

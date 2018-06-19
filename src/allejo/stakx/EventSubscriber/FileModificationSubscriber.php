@@ -53,6 +53,8 @@ class FileModificationSubscriber implements EventSubscriberInterface
             {
                 $dependents = $this->fileMapper->getTemplateDependents($relFilePath);
 
+                $this->compiler->getTemplateBridge()->clearCachedTemplate($relFilePath);
+
                 foreach ($dependents as $dependent)
                 {
                     $this->compiler->runtimeCompilePageViewFromPath($dependent);

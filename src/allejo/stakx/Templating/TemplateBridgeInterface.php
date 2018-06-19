@@ -79,4 +79,11 @@ interface TemplateBridgeInterface extends LoggerAwareInterface
      * @return TemplateInterface
      */
     public function createTemplate($templateContent);
+
+    /**
+     * @param $templateFilePath
+     *
+     * @return mixed
+     */
+    public function clearCachedTemplate($templateFilePath);
 }

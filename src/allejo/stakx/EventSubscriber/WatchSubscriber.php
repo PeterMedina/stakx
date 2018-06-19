@@ -7,7 +7,6 @@
 
 namespace allejo\stakx\EventSubscriber;
 
-use allejo\stakx\Command\BuildableCommand;
 use allejo\stakx\Event\CollectionDefinitionAdded;
 use allejo\stakx\Event\CollectionItemAdded;
 use allejo\stakx\Event\CompileProcessTemplateCreation;
@@ -18,9 +17,7 @@ use allejo\stakx\Event\PageViewAdded;
 use allejo\stakx\Event\PageViewDefinitionAdded;
 use allejo\stakx\FileMapper;
 use allejo\stakx\Filesystem\FilesystemLoader as fs;
-use allejo\stakx\Filesystem\FilesystemPath;
 use allejo\stakx\Manager\ThemeManager;
-use allejo\stakx\Service;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class WatchSubscriber implements EventSubscriberInterface
@@ -93,9 +90,8 @@ class WatchSubscriber implements EventSubscriberInterface
         {
             // Replace the '@theme' namespace in Twig with the path to the theme folder and create a FilesystemPath object from the given path
             $path = str_replace('@theme', fs::appendPath(ThemeManager::THEME_FOLDER, $event->getTheme()), $parent->getTemplateName());
-            $path = new FilesystemPath($path);
 
-            $this->fileMapper->registerTemplateExtend((string)$path, $pageView->getRelativeFilePath());
+            $this->fileMapper->registerTemplateExtend($path, $pageView->getRelativeFilePath());
 
             $parent = $parent->getParentTemplate();
         }

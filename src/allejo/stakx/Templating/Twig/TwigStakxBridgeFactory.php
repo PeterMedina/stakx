@@ -17,7 +17,6 @@ use allejo\stakx\Manager\PageManager;
 use allejo\stakx\Service;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Twig_Environment;
 use Twig_Extension_Debug;
 
 class TwigStakxBridgeFactory
@@ -54,7 +53,7 @@ class TwigStakxBridgeFactory
             }
         }
 
-        $twig = new Twig_Environment($loader, [
+        $twig = new TwigEnvironment($loader, [
             'autoescape' => $configuration->getTwigAutoescape(),
             'auto_reload' => true,
             'cache' => fs::absolutePath('.stakx-cache/twig'),

@@ -114,6 +114,16 @@ class Compiler
         $this->theme = $themeName;
     }
 
+    /**
+     * Get the Template Bridge used by this compiler.
+     *
+     * @return TemplateBridgeInterface
+     */
+    public function getTemplateBridge()
+    {
+        return $this->templateBridge;
+    }
+
     ///
     // Twig parent templates
     ///

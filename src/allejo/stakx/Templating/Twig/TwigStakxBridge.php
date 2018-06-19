@@ -19,7 +19,7 @@ class TwigStakxBridge implements TemplateBridgeInterface
     /** @var \Twig_Profiler_Profile */
     private $profiler;
 
-    public function __construct(\Twig_Environment $twig)
+    public function __construct(TwigEnvironment $twig)
     {
         $this->twig = $twig;
     }
@@ -55,6 +55,14 @@ class TwigStakxBridge implements TemplateBridgeInterface
         }
 
         return new TwigTemplate($template);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function clearCachedTemplate($templateFilePath)
+    {
+        $this->twig->clearCachedTemplate($templateFilePath);
     }
 
     /**

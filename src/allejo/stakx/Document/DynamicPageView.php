@@ -25,14 +25,6 @@ class DynamicPageView extends BasePageView
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function getIndexName()
-    {
-        return $this->getCollectableNamespace();
-    }
-
-    /**
      * Add a CollectableItem for this PageView to handle.
      */
     public function addCollectableItem(CollectableItem &$collectable)

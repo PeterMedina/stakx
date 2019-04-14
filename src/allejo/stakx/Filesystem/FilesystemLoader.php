@@ -12,6 +12,7 @@ namespace allejo\stakx\Filesystem;
  * @method static \bool exists(\string $path)                     Check whether a given file path exists or not.
  * @method static \string getExtension(\string $path)             Get the extension of a given file.
  * @method static \string getInternalResource(\string $file)      Get the contents of a stakx resource file.
+ * @method static \string getFilename(\string $filePath)          Get the name of a given file.
  * @method static \string getFolderPath(\string $path)            Get the parent directory of a given file.
  * @method static \string getRelativePath(\string $path)          Strip the current working directory from an absolute path.
  * @method static \bool isVFS(\string $path)                      Check whether a given path is on the virtual filesystem.

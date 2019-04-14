@@ -138,7 +138,7 @@ class Filesystem extends \Symfony\Component\Filesystem\Filesystem
      *
      * @return string
      */
-    public function getFileName($filePath)
+    public function getFilename($filePath)
     {
         return pathinfo($filePath, PATHINFO_BASENAME);
     }

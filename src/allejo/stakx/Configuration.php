@@ -103,7 +103,7 @@ class Configuration
     }
 
     /**
-     * @return string[]
+     * @return string[]|null
      */
     public function getDataFolders()
     {
@@ -111,7 +111,7 @@ class Configuration
     }
 
     /**
-     * @return string[]
+     * @return string[]|null
      */
     public function getDataSets()
     {

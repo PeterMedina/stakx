@@ -17,7 +17,7 @@ use Leafo\ScssPhp\Compiler as BaseCompiler;
 class Compiler extends BaseCompiler
 {
     /**
-     * @var int
+     * @var int[]
      */
     protected $lastTouched;
 

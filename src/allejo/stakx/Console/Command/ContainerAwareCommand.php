@@ -9,16 +9,18 @@ namespace allejo\stakx\Console\Command;
 
 use allejo\stakx\Console\Application;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\DependencyInjection\Container;
 
 abstract class ContainerAwareCommand extends Command
 {
+    /** @var Container|null */
     private $container;
 
     public function getContainer()
     {
         if ($this->container === null)
         {
-            /** @var Application $application */
+            /** @var Application|null $application */
             $application = $this->getApplication();
 
             if ($application === null)

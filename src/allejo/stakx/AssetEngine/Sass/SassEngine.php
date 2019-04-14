@@ -68,9 +68,7 @@ class SassEngine implements AssetEngineInterface
 
     /**
      * @param string $content
-     * @param $options = [
-     *     'pageview' => new StaticPageView()
-     * ]
+     * @param array  $options
      *
      * @return string
      */

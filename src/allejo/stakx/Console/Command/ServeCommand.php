@@ -8,6 +8,7 @@
 namespace allejo\stakx\Console\Command;
 
 use allejo\stakx\Exception\FileAwareException;
+use allejo\stakx\Filesystem\FilesystemDiff;
 use allejo\stakx\RuntimeStatus;
 use allejo\stakx\Server\RouteMapper;
 use allejo\stakx\Server\WebServer;
@@ -45,13 +46,31 @@ class ServeCommand extends BuildCommand
         try
         {
             $this->configureConfigurationFile($input);
+
+            /** @var Website $website */
             $website = $this->getContainer()->get(Website::class);
 
             /** @var RouteMapper $router */
             $router = $this->getContainer()->get(RouteMapper::class);
             $router->setBaseUrl($website->getConfiguration()->getBaseUrl());
 
+            $lastTick = new \DateTime();
+            $fsDiffer = new FilesystemDiff($website->getFolderDefinitions());
+
             $loop = Factory::create();
+            $loop->addPeriodicTimer(1, function() use (&$lastTick, $fsDiffer, $output) {
+                $changedFiles = $fsDiffer->modifiedAfter($lastTick);
+
+                foreach ($changedFiles as $file)
+                {
+                    $output->writeln(sprintf('File changed: %s', $file->getRelativeFilePath()));
+
+                    // @TODO Update the respective Manager with the new file content
+                }
+
+                $lastTick = new \DateTime();
+            });
+
             $socket = new \React\Socket\Server(
                 $input->getOption('bind') . ':' . $input->getOption('port'),
                 $loop
